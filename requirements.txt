@@ -3,3 +3,4 @@ asn1crypto==0.24.0
 mysql-connector==2.1.6     
 pycrypto==2.6.1
 urllib3==1.23      
+APScheduler==3.5.3

@@ -2,15 +2,25 @@
 import config
 import modules.bothandle        
 import modules.comprehend
+import alarms
+from apscheduler.schedulers.background import BackgroundScheduler
+
+ALARMS_CHECK_INTERVAL = 60 #second
+scheduler = BackgroundScheduler()
+scheduler.start()
 
 the_bot = modules.bothandle.BotHandle(config.telbot_config['bot_token'])   
 now = modules.bothandle.datetime.datetime.now()
 
+def check_alarms():
+    alarms.check_alarms();
 
 def main():  
     new_offset = None
     today = now.day
     hour = now.hour
+
+    scheduler.add_job(check_alarms(), 'interval', seconds = ALARMS_CHECK_INTERVAL)
 
     #Бесконечный цикл
     while True:

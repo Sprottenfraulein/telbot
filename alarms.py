@@ -4,7 +4,6 @@ import modules.db
 import modules.tools
 
 the_bot = modules.bothandle.BotHandle(config.telbot_config['bot_token'])   
-now = modules.bothandle.datetime.datetime.now()
 
 def check_alarm_done(alarm_id):
     print('Checking alarm', alarm_id, 'as done...')
@@ -74,7 +73,9 @@ def check_alarms(timestamp):
     modules.db.mycursor.execute(sql, val)
     return modules.db.mycursor.fetchall()
 
-def main():  
+def check_alarms():  
+    now = modules.bothandle.datetime.datetime.now()
+
     new_offset = None
     today = now.day
     hour = now.hour
@@ -86,5 +87,3 @@ def main():
     print('Actual alarms:\n', hot_alarms)
     alarms_list = telbot_checklists_alarms(hot_alarms)
     telbot_send_alarms(alarms_list)
-
-main()

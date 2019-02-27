@@ -44,7 +44,10 @@ def telbot_send_alarms(alarms_list):
             custom_time_message += ('Сейчас ' + str(modules.tools.user_local_datetime(now, user)) + '')
             custom_time_message += ('\nНапоминание на ' + str(modules.tools.user_local_datetime(modules.tools.timestamp_to_datetime(int(alarm['datetime'])), user)))
             print('Send message to', user, ':\n', custom_time_message + message)
-            the_bot.send_message(user, custom_time_message + message, keyboard)
+            try:
+                the_bot.send_message(user, custom_time_message + message, keyboard)
+            else:
+                print('Send message failed (', user, ':\n', custom_time_message + message, ')')
         
         check_alarm_done(alarm['id'])
 

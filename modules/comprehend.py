@@ -633,10 +633,11 @@ def comprehend(the_bot, update):
 
         #storing all media
         if 'photo' in last_update[content]:
-            the_bot.download_photo(last_update[content]['photo'][-1]['file_id'], str(user_id))
+            #the_bot.download_photo(last_update[content]['photo'][-1]['file_id'], str(user_id))
             incoming_photo_id = last_update[content]['photo'][-1]['file_id']
         else:
             incoming_photo_id = ''
+        """
         if 'voice' in last_update[content]:
             the_bot.download_voice(last_update[content]['voice']['file_id'], str(user_id))
         if 'animation' in last_update[content]:
@@ -645,6 +646,7 @@ def comprehend(the_bot, update):
             the_bot.download_video(last_update[content]['video']['file_id'], str(user_id))
         if 'audio' in last_update[content]:
             the_bot.download_music(last_update[content]['audio']['file_id'], str(user_id))
+            """
 
         default_photo_id = 'AgADAgADT6sxGx2SUErCYavk1g5IHzA-8w4ABJLS4VZn8rOt7SYGAAEC'
         print('------------------------------------------------------------|', modules.tools.user_local_datetime(datetime.datetime.now(), user_id))

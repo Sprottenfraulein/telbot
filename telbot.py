@@ -20,7 +20,7 @@ def main():
     today = now.day
     hour = now.hour
 
-    scheduler.add_job(check_alarms(), 'interval', seconds = ALARMS_CHECK_INTERVAL)
+    scheduler.add_job(check_alarms, 'interval', seconds = ALARMS_CHECK_INTERVAL)
 
     #Бесконечный цикл
     while True:

@@ -13,7 +13,7 @@ the_bot = modules.bothandle.BotHandle(config.telbot_config['bot_token'])
 now = modules.bothandle.datetime.datetime.now()
 
 def check_alarms():
-    alarms.check_alarms();
+    alarms.run_alarms_check();
 
 def main():  
     new_offset = None

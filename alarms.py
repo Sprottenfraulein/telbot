@@ -73,7 +73,7 @@ def check_alarms(timestamp):
     modules.db.mycursor.execute(sql, val)
     return modules.db.mycursor.fetchall()
 
-def check_alarms():  
+def run_alarms_check():  
     now = modules.bothandle.datetime.datetime.now()
 
     new_offset = None

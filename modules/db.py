@@ -20,6 +20,7 @@ mycursor = mydb.cursor()
 try:
     mycursor.execute("SHOW DATABASES")
     print("Existing databases:")
+    print(mycursor.execute("status"))
     for x in mycursor:
         print('- ', x[0])
     print("DB connection success.")

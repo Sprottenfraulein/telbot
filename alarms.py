@@ -46,7 +46,7 @@ def telbot_send_alarms(alarms_list):
             print('Send message to', user, ':\n', custom_time_message + message)
             try:
                 the_bot.send_message(user, custom_time_message + message, keyboard)
-            else:
+            except:
                 print('Send message failed (', user, ':\n', custom_time_message + message, ')')
         
         check_alarm_done(alarm['id'])

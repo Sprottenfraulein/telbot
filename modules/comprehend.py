@@ -712,7 +712,7 @@ def comprehend(the_bot, update):
                     else:
                         print("analysing input:", clean_string)
                         whole_string = clean_string.split(';')
-                        cut_string = whole_string[0].split(' ')
+                        cut_string = whole_string[0].strip(' ').split(' ')
                         whole_string.remove(whole_string[0])
                         item_comment = ';'.join(whole_string[:])
                         try:

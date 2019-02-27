@@ -13,6 +13,7 @@ def check_alarm_done(alarm_id):
     modules.db.mydb.commit()
 
 def telbot_send_alarms(alarms_list):
+    now = modules.bothandle.datetime.datetime.now()
     for alarm in alarms_list:
         message = ''
         message += '\n\nНАПОМИНАНИЕ'

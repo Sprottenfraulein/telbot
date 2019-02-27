@@ -26,6 +26,99 @@ try:
 except:
     print("Can't reach SQL server")
 
+# db initialization
+# alarms table
+sql = 'CREATE TABLE IF NOT EXISTS alarms ( \
+    id int(11) NOT NULL AUTO_INCREMENT, \
+    datetime int(11) NULL DEFAULT NULL, \
+    note text NULL DEFAULT NULL, \
+    done int(2) NULL DEFAULT NULL, \
+    PRIMARY KEY (id) \
+    )'
+mycursor.execute(sql)
+mydb.commit()
+# bot_messageid_log table
+sql = 'CREATE TABLE IF NOT EXISTS bot_messageid_log ( \
+    id int(11) NOT NULL AUTO_INCREMENT, \
+    id_conversation int(11) NULL DEFAULT NULL, \
+    id_message int(11) NULL DEFAULT NULL, \
+    PRIMARY KEY (id) \
+    )'
+mycursor.execute(sql)
+mydb.commit()
+# checklists table
+sql = 'CREATE TABLE IF NOT EXISTS checklists ( \
+    id int(11) NOT NULL AUTO_INCREMENT, \
+    list_name TEXT NULL DEFAULT NULL, \
+    list_type VARCHAR(24) NULL DEFAULT NULL, \
+    parent VARCHAR(24) NULL DEFAULT NULL, \
+    view_users text NULL DEFAULT NULL, \
+    viewedit_users text NULL DEFAULT NULL, \
+    creator_user VARCHAR(24) NULL DEFAULT NULL, \
+    lastedit_time DATETIME NULL DEFAULT NULL, \
+    creation_time DATETIME NULL DEFAULT NULL, \
+    sort_by VARCHAR(24) NULL DEFAULT NULL, \
+    sort_order VARCHAR(24) NULL DEFAULT NULL, \
+    visible INT(1) NULL DEFAULT NULL, \
+    PRIMARY KEY (id) \
+    )'
+mycursor.execute(sql)
+mydb.commit() 
+# hashtag_mentions table
+sql = 'CREATE TABLE IF NOT EXISTS hashtag_mentions ( \
+    id_mention int(11) NOT NULL AUTO_INCREMENT, \
+    name_hashtag TEXT NULL DEFAULT NULL, \
+    id_user INT(11) NULL DEFAULT NULL, \
+    date DATETIME NULL DEFAULT NULL, \
+    id_table INT(11) NULL DEFAULT NULL, \
+    PRIMARY KEY (id_mention) \
+    )'
+mycursor.execute(sql)
+mydb.commit() 
+# security table
+sql = 'CREATE TABLE IF NOT EXISTS security ( \
+    name varchar(255) NULL DEFAULT NULL, \
+    code varchar(255) NULL DEFAULT NULL \
+    )'
+mycursor.execute(sql)
+mydb.commit() 
+# user_avatars table
+sql = 'CREATE TABLE IF NOT EXISTS user_avatars ( \
+    id_avatar int(11) NOT NULL AUTO_INCREMENT, \
+    id_file VARCHAR(256) NULL DEFAULT NULL, \
+    id_user INT(11) NULL DEFAULT NULL, \
+    datetime DATETIME NULL DEFAULT NULL, \
+    PRIMARY KEY (id_avatar) \
+    )'
+mycursor.execute(sql)
+mydb.commit() 
+# user_mentions table
+sql = 'CREATE TABLE IF NOT EXISTS user_mentions ( \
+    id_mention int(11) NOT NULL AUTO_INCREMENT, \
+    id_mentioned_user INT(11) NULL DEFAULT NULL, \
+    id_user INT(11) NULL DEFAULT NULL, \
+    date DATETIME NULL DEFAULT NULL, \
+    PRIMARY KEY (id_mention) \
+    )'
+mycursor.execute(sql)
+mydb.commit() 
+# users table
+sql = 'CREATE TABLE IF NOT EXISTS users ( \
+    id int(11) NOT NULL AUTO_INCREMENT, \
+    tel_id VARCHAR(24) NULL DEFAULT NULL, \
+    password VARCHAR(255) NULL DEFAULT NULL, \
+    rank VARCHAR(24) NULL DEFAULT NULL, \
+    tel_username VARCHAR(255) NULL DEFAULT NULL, \
+    tel_firstname VARCHAR(255) NULL DEFAULT NULL, \
+    tel_lastname VARCHAR(255) NULL DEFAULT NULL, \
+    tel_bio VARCHAR(255) NULL DEFAULT NULL, \
+    notes VARCHAR(255) NULL DEFAULT NULL, \
+    timezone INT(11) NULL DEFAULT NULL, \
+    PRIMARY KEY (id) \
+    )'
+mycursor.execute(sql)
+mydb.commit() 
+
 def update_user_info(last_update_from):
     print('------------------------------------------------------------|', datetime.datetime.now())
     sql = "SELECT COUNT(tel_id) FROM users WHERE tel_id = %s"

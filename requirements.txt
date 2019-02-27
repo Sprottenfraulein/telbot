@@ -1,4 +1,4 @@
-requests==2.5.1
+requests==2.19.1
 asn1crypto==0.24.0  
 mysql-connector==2.1.6     
 pycrypto==2.6.1

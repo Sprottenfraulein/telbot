@@ -332,7 +332,7 @@ def add_checklist_item(checklist_id, item_name, item_cost, item_comment, photo_i
     myresult = mycursor.fetchall()
     print("Alterating checklist match:\n", myresult)
     if mycursor.rowcount > 0:
-        sql = "INSERT INTO {0} (item, cost, memo, checkbox, author, lastedit_time, image, visible, id_link) VALUES (%s, %s, %s, %s, %s, %s, %s, 1, -1)".format("checklist"+str(checklist_id))
+        sql = "INSERT INTO {0} (item, cost, memo, checkbox, author, lastedit_time, image, alarm, visible, id_link) VALUES (%s, %s, %s, %s, %s, %s, %s, 0, 1, -1)".format("checklist"+str(checklist_id))
         val = (item_name, item_cost, item_comment, 0, user_id, datetime.datetime.now(), photo_id)
         mycursor.execute(sql,val)
         mydb.commit()

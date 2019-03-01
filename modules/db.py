@@ -332,7 +332,7 @@ def add_checklist_item(checklist_id, item_name, item_cost, item_comment, photo_i
     myresult = mycursor.fetchall()
     print("Alterating checklist match:\n", myresult)
     if mycursor.rowcount > 0:
-        sql = "INSERT INTO {0} (item, cost, memo, checkbox, author, lastedit_time, image, alarm, visible, id_link) VALUES (%s, %s, %s, %s, %s, %s, %s, 0, 1, -1)".format("checklist"+str(checklist_id))
+        sql = "INSERT INTO {0} (item, cost, memo, checkbox, author, lastedit_time, image, visible, id_link) VALUES (%s, %s, %s, %s, %s, %s, %s, 1, -1)".format("checklist"+str(checklist_id))
         val = (item_name, item_cost, item_comment, 0, user_id, datetime.datetime.now(), photo_id)
         mycursor.execute(sql,val)
         mydb.commit()
@@ -411,7 +411,7 @@ def add_new_checklist(user_id, list_name, list_type, hashtags, viewers, editors)
     sql = "DROP TABLE IF EXISTS {0}".format(new_checklist_table_name)
     mycursor.execute(sql)
 
-    sql = "CREATE TABLE {0} (ID INT AUTO_INCREMENT PRIMARY KEY, item text, cost INT(24), checkbox INT(1), author VARCHAR(64), lastedit_time datetime, memo TEXT, image VARCHAR(255), visible int(1), id_link int);".format(new_checklist_table_name)
+    sql = "CREATE TABLE {0} (ID INT AUTO_INCREMENT PRIMARY KEY, item text, cost INT(24), checkbox INT(1), author VARCHAR(64), lastedit_time datetime, memo TEXT, image VARCHAR(255), alarm int, visible int(1), id_link int);".format(new_checklist_table_name)
     mycursor.execute(sql)
 
     mydb.commit()

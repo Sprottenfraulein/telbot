@@ -32,6 +32,8 @@ except:
 # alarms table
 sql = 'CREATE TABLE IF NOT EXISTS alarms ( \
     id int(11) NOT NULL AUTO_INCREMENT, \
+    id_checklist int(11) NULL DEFAULT NULL, \
+    id_item int(11) NULL DEFAULT NULL, \
     datetime int(11) NULL DEFAULT NULL, \
     note text NULL DEFAULT NULL, \
     done int(2) NULL DEFAULT NULL, \
@@ -409,7 +411,7 @@ def add_new_checklist(user_id, list_name, list_type, hashtags, viewers, editors)
     sql = "DROP TABLE IF EXISTS {0}".format(new_checklist_table_name)
     mycursor.execute(sql)
 
-    sql = "CREATE TABLE {0} (ID INT AUTO_INCREMENT PRIMARY KEY, item text, cost INT(24), checkbox INT(1), author VARCHAR(64), lastedit_time datetime, memo TEXT, image VARCHAR(255), alarm VARCHAR(64), visible int(1), id_link int);".format(new_checklist_table_name)
+    sql = "CREATE TABLE {0} (ID INT AUTO_INCREMENT PRIMARY KEY, item text, cost INT(24), checkbox INT(1), author VARCHAR(64), lastedit_time datetime, memo TEXT, image VARCHAR(255), visible int(1), id_link int);".format(new_checklist_table_name)
     mycursor.execute(sql)
 
     mydb.commit()
@@ -639,80 +641,41 @@ def checklist_update_edit_datetime(checklist_id):
     mydb.commit()
 
 def checklist_item_delete_alarm(checklist_id, item_id, alarm_id, user_id):
-    if not get_user_rights(user_id, checklist_id) in ('viewer', 'no_rights'):
+    if get_user_rights(user_id, checklist_id) in ('creator', 'editor'):
         sql = 'DELETE FROM alarms WHERE id = %s'
         val = (alarm_id,)
         mycursor.execute(sql, val)
         mydb.commit()
-            
-        sql = 'SELECT alarm FROM {0} WHERE id = %s'.format('checklist' + str(checklist_id))
-        val = (item_id,)
-        mycursor.execute(sql, val)
-        myresult = mycursor.fetchall()
-        alarm_ids = str(myresult[0][0]).replace(',', ' ').strip().split(' ')
-        if alarm_id in alarm_ids:
-            alarm_ids.remove(alarm_id)
-
-        sql = 'UPDATE {0} SET alarm = %s WHERE id = %s'.format('checklist' + str(checklist_id))
-        val = (','.join(alarm_ids), item_id)
-        mycursor.execute(sql, val)
-        mydb.commit()
-
         print ('alert deletion complete')
     else:
         print('User has no rights to delete alarms in this checklist')
 
 def checklist_item_add_alarm(checklist_id, item_id, note, datetime, user_id):
-    if not get_user_rights(user_id, checklist_id) in ('viewer', 'no_rights'):
-        sql = 'INSERT INTO alarms (note, datetime, done) VALUES (%s, %s, 0)'
-        val = (note, datetime)
+    if get_user_rights(user_id, checklist_id) in ('creator', 'editor'):
+        sql = 'INSERT INTO alarms (note, datetime, done, id_checklist, id_item) VALUES (%s, %s, 0, %s, %s)'
+        val = (note, datetime, checklist_id, item_id)
         mycursor.execute(sql, val)
         mydb.commit()
-        sql = 'SELECT alarm FROM {0} WHERE id = %s'.format('checklist' + str(checklist_id))
-        val = (item_id,)
-        mycursor.execute(sql, val)
-        alarm_ids = str(mycursor.fetchall()[0][0]).replace(',', ' ').strip().split(' ')
-        for alarm_id in alarm_ids:
-            try:
-                int(alarm_id)
-            except:
-                alarm_ids.remove(alarm_id)
-        alarm_ids.append(str(mycursor.lastrowid))
-        sql = 'UPDATE {0} SET alarm = %s WHERE id = %s'.format('checklist' + str(checklist_id))
-        val = (' '.join(alarm_ids).strip().replace(' ', ','), item_id)
         new_alarm_id = mycursor.lastrowid
-        mycursor.execute(sql, val)
-        mydb.commit()
         return new_alarm_id
     else:
         print('User has no right to add alarms')
         return -1
 
 def checklist_item_get_alarm(checklist_id, item_id, user_id):
-    if not get_user_rights(user_id, checklist_id) in ('viewer', 'no_rights'):
-        sql = 'SELECT alarm FROM {0} WHERE id = %s'.format('checklist' + str(checklist_id))
-        val = (item_id,)
+    if get_user_rights(user_id, checklist_id) in ('creator', 'editor'):
+        sql = 'SELECT * FROM alarms WHERE id_checklist = %s AND id_item = %s'
+        val = (checklist_id, item_id)
         mycursor.execute(sql, val)
-        alarms = []
-        for alarm_id in str(mycursor.fetchall()[0][0]).replace(',', ' ').strip().split(' '):
-            try:
-                int(alarm_id)
-                alarms.append(alarm_id)
-            except:
-                print(alarm_id, 'is not valid ID')
-        if alarms:
-            sql = 'SELECT * FROM alarms WHERE id IN {0}'.format('(' + ','.join(alarms) + ')')
-            mycursor.execute(sql)
-            myresult = mycursor.fetchall()
-            print('Item alarms:')
-            for alarm in myresult:
-                print(alarm)
-            return myresult
-        return []
+        myresult = mycursor.fetchall()
+        print('Item alarms:')
+        for alarm in myresult:
+            print(alarm)
+        return myresult
     return []
 
 def checklist_item_edit_alarm(checklist_id, user_alarm, alarm_id, user_id):
-    if not get_user_rights(user_id, checklist_id) in ('viewer', 'no_rights'):
+    if get_user_rights(user_id, checklist_id) in ('creator', 'editor'):
         sql = 'UPDATE alarms SET datetime = %s, note = %s, done = 0 WHERE id = %s'
         val = (user_alarm['datetime'], user_alarm['note'], alarm_id)
         mycursor.execute(sql, val)

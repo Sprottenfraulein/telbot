@@ -52,24 +52,25 @@ def telbot_send_alarms(alarms_list):
         check_alarm_done(alarm['id'])
 
 def telbot_checklists_alarms(alarms_table):
-    checklists = modules.db.read_from_db('id, list_name, list_type, parent, view_users, viewedit_users, creator_user, lastedit_time', 'checklists', '', '', '', '', '')
-    if checklists:
-        alarms_list = []
-        for alarm in alarms_table:
-            alarm_id = alarm[0]
-            for checklist in checklists:
-                checklist_id = checklist[0]
-                sql = 'SELECT * FROM {0} WHERE alarm LIKE %s AND visible = 1'.format('checklist' + str(checklist_id))
-                val = ('%{0}%'.format(str(alarm_id)),)
-                modules.db.mycursor.execute(sql, val)
-                alarm_item = modules.db.mycursor.fetchall()
-                if alarm_item:
-                    alarms_list.append({'id': alarm_id, 'checklist_card': checklist, 'item_card': alarm_item[0], 'datetime': alarm[1], 'alarm_note': alarm[2]})
-                    del alarm_item
-        print(alarms_list)
-        return alarms_list
-    else:
-        return []
+    alarms_list = []
+    for alarm in alarms_table:
+        alarm_id = alarm[0]
+        checklist_id = alarm[1]
+        item_id = alarm[2]
+        
+        sql = 'SELECT * FROM checklists WHERE id = %s'
+        val = (checklist_id,)
+        mycursor.execute(sql, val)
+        checklist = mycursor.fetchall()[0]
+
+        sql = 'SELECT * FROM {0} WHERE id = %s'.format('checklist' + str(checklist_id))
+        val = (item_id,)
+        mycursor.execute(sql, val)
+        item = mycursor.fetchall()[0]
+
+        alarms_list.append({'id': alarm_id, 'checklist_card': checklist, 'item_card': item, 'datetime': alarm[3], 'alarm_note': alarm[4]})
+    print(alarms_list)
+    return alarms_list
 
 def check_alarms(timestamp):
     sql = 'SELECT * FROM alarms WHERE datetime <= %s AND done <> 1 ORDER BY id ASC'

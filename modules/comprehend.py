@@ -276,7 +276,7 @@ def compose_checklist_gui(checklist_table, checklist_id, item_icon, checklist_fu
                 item_cost_info = ''
             alarm_count = ''
             if table_row[8]:
-                alarms = str(table_row[8]).replace(',', ' ').strip().split(' ')
+                alarms = modules.db.checklist_item_get_alarm(checklist_id, table_row[0], user_id)
                 if len(alarms) > 0:
                     alarm_count = ' ⏰' + str(len(alarms))
             if table_row[10] and table_row[10] > 0:
@@ -345,11 +345,11 @@ def compose_checklist_item_alarm_gui(checklist_id, item_id, button_function, nav
     modules.tools.new_button('👭', 'all_checklists')
     modules.tools.close_row()
     for alarm in modules.db.checklist_item_get_alarm(checklist_id, item_id, user_id):
-        if alarm[3] == 1:
+        if alarm[5] == 1:
             checkbox_icon = '✔️'
-        if alarm[3] == 0:
+        if alarm[5] == 0:
             checkbox_icon = ' '
-        modules.tools.new_button(checkbox_icon + str(modules.tools.user_local_datetime(modules.tools.timestamp_to_datetime(int(alarm[1])), user_id)), button_function + '-' + str(alarm[0]))
+        modules.tools.new_button(checkbox_icon + str(modules.tools.user_local_datetime(modules.tools.timestamp_to_datetime(int(alarm[3])), user_id)), button_function + '-' + str(alarm[0]))
         modules.tools.close_row()
     user_rights = modules.db.get_user_rights(user_id, checklist_id)
     if user_rights in ('creator', 'editor'):

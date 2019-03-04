@@ -49,14 +49,14 @@ def generate_checklist_alarm_info(checklist_table, item_table, alarm_id, user_id
         else:
             item_cost_info = ''
         string += ' → ' + str(item_table[0][1]) + item_cost_info
-        if item_alarm[0][3] == 0:
+        if item_alarm[0][5] == 0:
             checkbox_icon = ''
-        if item_alarm[0][3] == 1:
+        if item_alarm[0][5] == 1:
             checkbox_icon = '✔️'
         print(item_alarm)
         string += '\n\n'
-        string += checkbox_icon + '' + str(modules.tools.friendly_datetime(modules.tools.timestamp_to_datetime(int(item_alarm[0][1])))) + ''
-        string += '\n' + str(item_alarm[0][2])
+        string += checkbox_icon + '' + str(modules.tools.friendly_datetime(modules.tools.timestamp_to_datetime(int(item_alarm[0][3])))) + ''
+        string += '\n' + str(item_alarm[0][4])
         return string
     return 'This alarm is orphan'
 

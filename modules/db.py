@@ -17,16 +17,15 @@ mydb = mysql.connector.connect(
 
 mycursor = mydb.cursor()
 
+mycursor.execute("SHOW DATABASES")
+print("Existing databases:")
+for x in mycursor:
+    print('- ', x[0])
+print("DB connection success.")
 try:
-    print(mycursor.fetchall())
-    mycursor.execute("SHOW DATABASES")
-    print("Existing databases:")
-    
-    for x in mycursor:
-        print('- ', x[0])
-    print("DB connection success.")
+    mycursor.fetchall()
 except:
-    print("Can't reach SQL server")
+    print("no unfetched results")
 
 # db initialization
 # alarms table

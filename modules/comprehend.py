@@ -83,13 +83,13 @@ def generate_checklist_item_details_tips(checklist_table, item_table, user_id):
     if item_alarms:
         string += '\n\nНапоминания:'
         for item_alarm in item_alarms:
-            if item_alarm[3] == 0:
+            if item_alarm[5] == 0:
                 checkbox_icon = ''
-            if item_alarm[3] == 1:
+            if item_alarm[5] == 1:
                 checkbox_icon = '✔️'
             print(item_alarm)
             string += '\n'
-            string += checkbox_icon + str(modules.tools.user_local_datetime(modules.tools.timestamp_to_datetime(int(item_alarm[1])), user_id)) + ' (' + str(item_alarm[2]) + ')'
+            string += checkbox_icon + str(modules.tools.user_local_datetime(modules.tools.timestamp_to_datetime(int(item_alarm[3])), user_id)) + ' (' + str(item_alarm[4]) + ')'
     string += '\n\nЗапись добавлена ' + modules.tools.user_local_datetime(item_table[0][5], user_id) #+ ' @' + modules.db.get_user_info([item_table[0][4],], 'tel_firstname')[0][0]
     return string
 
@@ -275,10 +275,9 @@ def compose_checklist_gui(checklist_table, checklist_id, item_icon, checklist_fu
             else:
                 item_cost_info = ''
             alarm_count = ''
-            if table_row[8]:
-                alarms = modules.db.checklist_item_get_alarm(checklist_id, table_row[0], user_id)
-                if len(alarms) > 0:
-                    alarm_count = ' ⏰' + str(len(alarms))
+            alarms = modules.db.checklist_item_get_alarm(checklist_id, table_row[0], user_id)
+            if alarms:
+                alarm_count = ' ⏰' + str(len(alarms))
             if table_row[10] and table_row[10] > 0:
                 checklist_link = modules.db.get_checklists('id', table_row[10], user_id)
                 modules.tools.new_button('📒 ' + checklist_link[0][1] + ' ' + modules.tools.generate_checklist_totals(checklist_link[0][0]) + ' ', 'checklist_items_info-' + str(table_row[10]))

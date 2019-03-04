@@ -61,12 +61,12 @@ def telbot_checklists_alarms(alarms_table):
         sql = 'SELECT * FROM checklists WHERE id = %s'
         val = (checklist_id,)
         modules.db.mycursor.execute(sql, val)
-        checklist = mycursor.fetchall()[0]
+        checklist = modules.db.mycursor.fetchall()[0]
 
         sql = 'SELECT * FROM {0} WHERE id = %s'.format('checklist' + str(checklist_id))
         val = (item_id,)
         modules.db.mycursor.execute(sql, val)
-        item = mycursor.fetchall()[0]
+        item = modules.db.mycursor.fetchall()[0]
 
         alarms_list.append({'id': alarm_id, 'checklist_card': checklist, 'item_card': item, 'datetime': alarm[3], 'alarm_note': alarm[4]})
     print(alarms_list)

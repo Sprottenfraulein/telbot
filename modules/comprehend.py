@@ -1330,10 +1330,12 @@ def comprehend(the_bot, update):
                         media_list.append({'type': 'photo', 'media': i[0]})
                     if len(media_list) > 1:
                         while len(media_list) > 10:
+                            print('sending pictures:', media_list[:10])
                             the_bot.send_media(conversation_id, media_list[:10])
                             media_list = media_list[10:]
+                        print('sending pictures:', media_list)
                         the_bot.send_media(conversation_id, media_list)
-
+                        media_list.clear()
                     elif len(media_list) == 1:
                         the_bot.send_photo(conversation_id, media_list[0], buttons = modules.tools.quick_keyboard([['Закрыть','remove_message'],]))
                     else:

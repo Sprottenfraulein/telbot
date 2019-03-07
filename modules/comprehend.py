@@ -651,6 +651,14 @@ def comprehend(the_bot, update):
         print('------------------------------------------------------------|', modules.tools.user_local_datetime(datetime.datetime.now(), user_id))
         
         if clean_string or incoming_photo_id:
+            if bot_context = 'shrimp_input':
+                print("analysing input:", clean_string)
+                response = modules.language.synthesize(clean_string)
+                modules.tools.new_button('⌂', 'nav_to_start')
+                modules.tools.close_row()
+                keyboard = modules.tools.get_inline_keyboard()
+                the_bot.send_message(conversation_id, response, keyboard)
+
             if bot_context_card[0] == 'checklist_item_name_edit':
                 try:
                     user_rights = modules.db.get_user_rights(user_id, bot_context_card[1])
@@ -927,7 +935,7 @@ def comprehend(the_bot, update):
                 if data == "nav_to_start":
                     bot_context = modules.db.write_navigation_history(user_id, 'free')
                     modules.tools.new_button('📝', 'public_checklists')
-                    modules.tools.new_button(' ', 'no_command')
+                    modules.tools.new_button('🦐', 'shrimp')
                     modules.tools.new_button('Помощь', 'help')
                     modules.tools.new_button('🕗', 'input_gmt')
                     modules.tools.close_row()
@@ -1023,6 +1031,14 @@ def comprehend(the_bot, update):
 Израильское время +2  \n\
 Японское время +9  \n\
 Московское время +3 '
+                    modules.tools.new_button('⌂', 'nav_to_start')
+                    modules.tools.close_row()
+                    keyboard = modules.tools.get_inline_keyboard()
+                    the_bot.edit_message(message_id, conversation_id, print_text, keyboard)
+
+                if data = 'shrimp':
+                    bot_context = modules.db.write_navigation_history(user_id, 'shrimp_input')
+                    print_text = 'Привет, я креведко. Угадай что я прочитала.'
                     modules.tools.new_button('⌂', 'nav_to_start')
                     modules.tools.close_row()
                     keyboard = modules.tools.get_inline_keyboard()
@@ -1357,7 +1373,7 @@ def comprehend(the_bot, update):
 
                         if 'start' in todo_list:
                             modules.tools.new_button('📝', 'public_checklists')
-                            modules.tools.new_button(' ', 'no_command')
+                            modules.tools.new_button('🦐', 'shrimp')
                             modules.tools.new_button('Помощь', 'help')
                             modules.tools.new_button('🕗', 'input_gmt')
                             modules.tools.close_row()

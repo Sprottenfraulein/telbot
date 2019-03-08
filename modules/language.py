@@ -1,4 +1,5 @@
 from random import randint
+import modules.db
 
 bonding_strength = 0.01
 

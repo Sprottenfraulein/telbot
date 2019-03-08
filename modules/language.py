@@ -2,8 +2,6 @@ from random import randint
 
 bonding_strength = 0.01
 
-db_init_tables()
-
 def db_init_tables():
     sql = 'CREATE TABLE IF NOT EXISTS alpha_bondings ( \
     id_bonding int(11) NOT NULL AUTO_INCREMENT, \
@@ -145,3 +143,5 @@ def synthesize(seed):
                 keyweight = j_weight
     seed = db_get_collector(keyword)
     return synthesize_text(seed, len(seed) * 2)
+
+db_init_tables()

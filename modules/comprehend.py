@@ -4,6 +4,7 @@ import modules.db
 import modules.authorize
 import modules.bothandle
 import modules.tools
+import modules.language
 import datetime
 
 todo_list = []

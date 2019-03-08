@@ -19,7 +19,7 @@ def db_init_tables():
     PRIMARY KEY (id_data) \
     )'
     modules.db.mycursor.execute(sql)
-    modules.db.mymodules.db.commit()
+    modules.db.mydb.commit()
 
 def db_store_bonding(emitter, collector):
     id_emitter = db_get_data_id(emitter)
@@ -38,13 +38,13 @@ def db_update_bonding(id_emitter, id_collector, strength):
         sql = 'UPDATE alpha_bondings SET weight = %s WHERE id_bonding = %s'
         val = (weight + bonding_strength, id_bonding)
         modules.db.mycursor.execute(sql, val)
-        modules.db.mymodules.db.commit()
+        modules.db.mydb.commit()
         return weight + bonding_strength
     else:
         sql = 'INSERT INTO alpha_bondings (id_emitter, id_collector, weight) VALUES (%s, %s, %s)'
         val = (id_emitter, id_collector, bonding_strength)
         modules.db.mycursor.execute(sql, val)
-        modules.db.mymodules.db.commit()
+        modules.db.mydb.commit()
         return bonding_strength
 
 def db_get_data_id(string):
@@ -58,7 +58,7 @@ def db_get_data_id(string):
         sql = 'INSERT INTO alpha_data (string) VALUES (%s)'
         val = (string,)
         modules.db.mycursor.execute(sql, val)
-        modules.db.mymodules.db.commit()
+        modules.db.mydb.commit()
         id_data = modules.db.mycursor.lastrowid
     return id_data
 

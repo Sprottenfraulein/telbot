@@ -1036,7 +1036,7 @@ def comprehend(the_bot, update):
                     keyboard = modules.tools.get_inline_keyboard()
                     the_bot.edit_message(message_id, conversation_id, print_text, keyboard)
 
-                if data = 'shrimp':
+                if data == 'shrimp':
                     bot_context = modules.db.write_navigation_history(user_id, 'shrimp_input')
                     print_text = 'Привет, я креведко. Угадай что я прочитала.'
                     modules.tools.new_button('⌂', 'nav_to_start')

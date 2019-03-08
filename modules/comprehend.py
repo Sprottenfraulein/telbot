@@ -651,7 +651,7 @@ def comprehend(the_bot, update):
         print('------------------------------------------------------------|', modules.tools.user_local_datetime(datetime.datetime.now(), user_id))
         
         if clean_string or incoming_photo_id:
-            if bot_context = 'shrimp_input':
+            if bot_context == 'shrimp_input':
                 print("analysing input:", clean_string)
                 response = modules.language.synthesize(clean_string)
                 modules.tools.new_button('⌂', 'nav_to_start')

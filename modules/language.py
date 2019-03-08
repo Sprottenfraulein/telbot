@@ -10,7 +10,7 @@ def db_init_tables():
     weight float(3), \
     PRIMARY KEY (id_bonding) \
     )'
-    modules.modules.db.mycursor.execute(sql)
+    modules.db.mycursor.execute(sql)
 
     sql = 'CREATE TABLE IF NOT EXISTS alpha_data ( \
     id_data int(11) NOT NULL AUTO_INCREMENT, \
